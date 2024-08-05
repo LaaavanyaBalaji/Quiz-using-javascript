@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5-Page Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .results {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="quiz">
+            <!-- Page 1 -->
+            <div class="page" id="page1">
+                <div class="question">
+                    <h2>Question 1: What is the capital of France?</h2>
+                    <input type="radio" name="q1" value="Paris"> Paris<br>
+                    <input type="radio" name="q1" value="London"> London<br>
+                    <input type="radio" name="q1" value="Rome"> Rome<br>
+                    <input type="radio" name="q1" value="Berlin"> Berlin<br>
+                </div>
+                <button onclick="nextPage(2)">Next</button>
+            </div>
+
+            <!-- Page 2 -->
+            <div class="page hidden" id="page2">
+                <div class="question">
+                    <h2>Question 2: What is 5 + 3?</h2>
+                    <input type="radio" name="q2" value="6"> 6<br>
+                    <input type="radio" name="q2" value="7"> 7<br>
+                    <input type="radio" name="q2" value="8"> 8<br>
+                    <input type="radio" name="q2" value="9"> 9<br>
+                </div>
+                <button onclick="prevPage(1)">Previous</button>
+                <button onclick="nextPage(3)">Next</button>
+            </div>
+
+            <!-- Page 3 -->
+            <div class="page hidden" id="page3">
+                <div class="question">
+                    <h2>Question 3: What is the boiling point of water?</h2>
+                    <input type="radio" name="q3" value="90°C"> 90°C<br>
+                    <input type="radio" name="q3" value="100°C"> 100°C<br>
+                    <input type="radio" name="q3" value="110°C"> 110°C<br>
+                    <input type="radio" name="q3" value="120°C"> 120°C<br>
+                </div>
+                <button onclick="prevPage(2)">Previous</button>
+                <button onclick="nextPage(4)">Next</button>
+            </div>
+
+            <!-- Page 4 -->
+            <div class="page hidden" id="page4">
+                <div class="question">
+                    <h2>Question 4: Who wrote 'To Kill a Mockingbird'?</h2>
+                    <input type="radio" name="q4" value="Harper Lee"> Harper Lee<br>
+                    <input type="radio" name="q4" value="Mark Twain"> Mark Twain<br>
+                    <input type="radio" name="q4" value="Ernest Hemingway"> Ernest Hemingway<br>
+                    <input type="radio" name="q4" value="J.K. Rowling"> J.K. Rowling<br>
+                </div>
+                <button onclick="prevPage(3)">Previous</button>
+                <button onclick="nextPage(5)">Next</button>
+            </div>
+
+            <!-- Page 5 -->
+            <div class="page hidden" id="page5">
+                <div class="question">
+                    <h2>Question 5: What is the chemical symbol for Gold?</h2>
+                    <input type="radio" name="q5" value="Au"> Au<br>
+                    <input type="radio" name="q5" value="Ag"> Ag<br>
+                    <input type="radio" name="q5" value="Pb"> Pb<br>
+                    <input type="radio" name="q5" value="Fe"> Fe<br>
+                </div>
+                <button onclick="prevPage(4)">Previous</button>
+                <button onclick="submitQuiz()">Submit</button>
+            </div>
+
+            <!-- Results -->
+            <div id="results" class="hidden">
+                <h2>Quiz Results</h2>
+                <div class="results"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var currentPage = 1;
+        var totalPages = 5;
+
+        function showPage(pageNumber) {
+            $('.page').addClass('hidden');
+            $('#page' + pageNumber).removeClass('hidden');
+        }
+
+        function nextPage(pageNumber) {
+            if (pageNumber <= totalPages) {
+                currentPage = pageNumber;
+                showPage(currentPage);
+            }
+        }
+
+        function prevPage(pageNumber) {
+            if (pageNumber >= 1) {
+                currentPage = pageNumber;
+                showPage(currentPage);
+            }
+        }
+
+        function submitQuiz() {
+            var score = 0;
+
+            // Answers (for example purposes)
+            var correctAnswers = {
+                q1: 'Paris',
+                q2: '8',
+                q3: '100°C',
+                q4: 'Harper Lee',
+                q5: 'Au'
+            };
+
+            // Check answers
+            for (var q in correctAnswers) {
+                var selected = $('input[name="' + q + '"]:checked').val();
+                if (selected === correctAnswers[q]) {
+                    score++;
+                }
+            }
+
+            // Show results
+            $('#results .results').text('You scored ' + score + ' out of ' + totalPages);
+            $('#quiz').addClass('hidden');
+            $('#results').removeClass('hidden');
+        }
+
+        $(document).ready(function() {
+            showPage(currentPage);
+        });
+    </script>
+</body>
+</html>
